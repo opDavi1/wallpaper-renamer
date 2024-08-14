@@ -86,6 +86,6 @@ THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMP
 }
 
 pub fn run(dir: &Path) -> io::Result<()> {
-    rename_files_in_dir(&dir)?;
-    delete_duplicate_files(&dir)
+    delete_duplicate_files(&dir)?;
+    rename_files_in_dir(&dir)
 }
