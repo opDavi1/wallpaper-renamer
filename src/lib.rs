@@ -63,12 +63,14 @@ fn delete_duplicate_files(dir: &Path)  -> io::Result<()> {
 
     for path in paths {
         let path = path?.path();
-        let file_hash = hash_file_content(&path)?;
-        if let Some(_) = file_hash_map.get(&file_hash) {
-            fs::remove_file(&path)?;
-            println!("Duplicate wallpaper {:?} found. Deleted.", path.file_name().unwrap());
-        } else {
-            file_hash_map.insert(file_hash, path);
+        if path.is_file() {
+            let file_hash = hash_file_content(&path)?;
+            if let Some(_) = file_hash_map.get(&file_hash) {
+                fs::remove_file(&path)?;
+                println!("Duplicate wallpaper {:?} found. Deleted.", path.file_name().unwrap());
+            } else {
+                file_hash_map.insert(file_hash, path);
+            }
         }
     }   
 
