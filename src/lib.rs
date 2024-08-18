@@ -36,7 +36,7 @@ fn rename_files_in_dir(dir: &Path) -> io::Result<()> {
 
     for path in paths {
         let path = path?.path();
-        let current_file_name = match path.file_name() {
+        let current_file_name = match path.file_stem() {
             Some(n) => n,
             None => {
                 return io::Result::Err(io::Error::new(io::ErrorKind::InvalidData, "Could not read file name"));
