@@ -1,11 +1,9 @@
 // This file is part of wprn by opDavi1, licensed under the MIT License.
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-use std::collections::HashMap;
-use std::fs;
-use std::io;
+use std::{fs, io};
+use std::collections::{HashMap, HashSet};
 use std::path::Path;
-use std::collections::HashSet;
 use rand::{thread_rng, Rng};
 use rand::distributions::Alphanumeric;
 use sha2::{Sha256, Digest};
@@ -38,8 +36,14 @@ fn rename_files_in_dir(dir: &Path) -> io::Result<()> {
 
     for path in paths {
         let path = path?.path();
+        let current_file_name = match path.file_name() {
+            Some(n) => n,
+            None => {
+                return io::Result::Err(io::Error::new(io::ErrorKind::InvalidData, "Could not read file name"));
+            },
+        };
 
-        if path.is_file() {
+        if path.is_file() && current_file_name.len() != 10 {
             let new_name = generate_random_file_name(&existing_names); 
             let extention = path.extension().and_then(|ext| ext.to_str());
             let new_file_name = match extention {
