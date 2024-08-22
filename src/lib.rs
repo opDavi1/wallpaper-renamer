@@ -110,16 +110,16 @@ fn delete_duplicate_files(dir: &String)  -> io::Result<()> {
 }
 
 pub fn show_usage() {
-    println!("Wallpaper Renamer (wprn) by opDavi1
+    println!("Usage: wprn <Directory> [File Name Length]
+Wallpaper Renamer (wprn) by opDavi1
 Renames all files in a given folder to a random string and deletes any duplicate files found.
-    
-    Usage: wprn <Directory> [File Name Length]
     
 This program is distributed under the MIT license. See the included LICENSE.md file for more information or use the --license flag while running this command.");
 }
 
 pub fn show_license() {
-    println!("This program is licensed under the MIT license.
+    println!("This program is licensed under the MIT license. See the included LICENSE.md file for more information.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.");
 }
 

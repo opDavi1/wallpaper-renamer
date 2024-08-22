@@ -7,8 +7,8 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
-        eprintln!("Error: Not enough arguments!");
-        wprn::show_usage();
+        eprintln!("wprn: Not enough arguments!
+Try \"wprn --help\" for more information");
         process::exit(1);
     } else if (args[1] == "--help") || (args[1] == "-h") {
         wprn::show_usage();
