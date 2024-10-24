@@ -8,10 +8,12 @@ use rand::{thread_rng, Rng};
 use rand::distributions::Alphanumeric;
 use sha2::{Sha256, Digest};
 
+
 pub struct Config {
     dir: String,
     file_name_length: usize,
 }
+
 
 impl Config {
     pub fn build(args: &[String]) -> Result<Config, &'static str> {
@@ -46,6 +48,7 @@ fn generate_random_file_name(length: &usize, existing_names: &HashSet<String>) -
     }
 }
 
+
 fn hash_file_content(path: &Path) -> io::Result<String> {
     let mut file = fs::File::open(path)?;
     let mut hasher = Sha256::new();
@@ -53,6 +56,7 @@ fn hash_file_content(path: &Path) -> io::Result<String> {
     let hash = format!("{:x}", hasher.finalize());
     Ok(hash)
 }
+
 
 fn rename_files_in_dir(dir: &String, file_name_length: &usize) -> io::Result<()> {
     let paths = fs::read_dir(dir)?;
@@ -85,6 +89,7 @@ fn rename_files_in_dir(dir: &String, file_name_length: &usize) -> io::Result<()>
     Ok(())
 }
 
+
 fn delete_duplicate_files(dir: &String)  -> io::Result<()> {
     let paths = fs::read_dir(dir)?;
     let mut file_hash_map = HashMap::new();
@@ -109,6 +114,13 @@ fn delete_duplicate_files(dir: &String)  -> io::Result<()> {
     Ok(())
 }
 
+
+pub fn run(config: Config) -> io::Result<()> {
+    delete_duplicate_files(&config.dir)?;
+    rename_files_in_dir(&config.dir, &config.file_name_length)
+}
+
+
 pub fn show_usage() {
     println!("---------------------------------------------------------
     Usage: wprn <Directory> [File Name Length]
@@ -118,6 +130,7 @@ Renames all files in a given folder to a random string and deletes any duplicate
     
 This program is distributed under the MIT license. See the included LICENSE.md file for more information or use the --license flag while running this command.");
 }
+
 
 pub fn show_license() {
     println!("This program is licensed under the MIT license. See the included LICENSE.md file for a copy of this license.
@@ -129,9 +142,4 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.");
-}
-
-pub fn run(config: Config) -> io::Result<()> {
-    delete_duplicate_files(&config.dir)?;
-    rename_files_in_dir(&config.dir, &config.file_name_length)
 }
